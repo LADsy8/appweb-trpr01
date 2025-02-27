@@ -5,8 +5,8 @@ import VideoGameForm from "./components/VideoGameForm.vue";
 <template>
     <div class="container ">
         <div class="row">
-            <div class="col-12">
-                <img src="./assets/images/BannersiteTP1AppWeb.jpg" class="img-fluid w-100 h-50">
+            <div class="col-12 h-50">
+                <img src="./assets/images/BannersiteTP1AppWeb.jpg" class="img-fluid w-100 ">
             </div>
             <div class="col-6">
             </div>
