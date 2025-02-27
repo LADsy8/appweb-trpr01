@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import MagicCardForm from "./components/MagicCardForm.vue";
+import VideoGameForm from "./components/VideoGameForm.vue";
 </script>
 
 <template>
-
-<MagicCardForm> </MagicCardForm>
+    <div>
+        
+    </div>
+    <div class="container">
+        <VideoGameForm> </VideoGameForm>
+    </div>
 </template>
 
 <style scoped>

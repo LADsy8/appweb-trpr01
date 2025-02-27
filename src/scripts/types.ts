@@ -1,7 +1,12 @@
-export interface MagicCard {
-    name: string;
-    effect?: string;
-    attack: number;
-    defense?: number | null;
-    flavorText?: string;
-  }
+export interface VideoGame{
+  name: string;
+  publisher: string | null;
+  maker: string | null;
+  price: number;
+  gameType: string;
+  desc: string | null;
+  imgLink: string;
+  quantity: number;
+  releaseDate: string | null;
+}
+
