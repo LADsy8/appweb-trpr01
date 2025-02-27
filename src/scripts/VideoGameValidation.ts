@@ -20,7 +20,7 @@ export function useVideoGameForm() {
   const validateForm = () => {
 
     errors.name = form.name.trim() ? '' : 'Le nom est requis.';
-    errors.price = form.price > 0 ? '' : 'Le jeu doit avoir un prix valide.';
+    errors.price = form.price >= 0 ? '' : 'Le jeu doit avoir un prix valide.';
     errors.gameType = form.gameType.trim() ? '' : 'Le type de jeu est requis.';
     errors.quantity = form.quantity > -1 ? '' : 'La quantité doit être un nombre supérieur à -1.';
     
@@ -28,7 +28,7 @@ export function useVideoGameForm() {
     return !errors.name && !errors.quantity && !errors.gameType && !errors.price;
   };
 
-  const handleSubmit = () => {
+  const handleAdd = () => {
     if (validateForm()) {
       game.value.push({ ...form });
       form.name = '';
@@ -43,5 +43,5 @@ export function useVideoGameForm() {
     }
   };
 
-  return { form, errors, game, handleSubmit };
+  return { form, errors, game, handleAdd };
 }
