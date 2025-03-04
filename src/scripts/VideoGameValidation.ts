@@ -1,7 +1,7 @@
-import { reactive, ref } from 'vue';
-import type { VideoGame } from './types';
+import { reactive } from 'vue';
+import type { VideoGame } from '../scripts/types';
 
-export function useVideoGameForm() {
+export function VideoGameValidation(addGame: (game: VideoGame) => void) {
   const form = reactive<VideoGame>({
     name: '',
     publisher: null,
@@ -14,34 +14,34 @@ export function useVideoGameForm() {
     releaseDate: null
   });
 
-  const errors = reactive<{ name?: string; price?:string; gameType?:string; quantity?: string;}>({});
-  const game = ref<VideoGame[]>([]);
+  const errors = reactive<{ name?: string; price?: string; gameType?: string; quantity?: string }>({});
 
   const validateForm = () => {
-
     errors.name = form.name.trim() ? '' : 'Le nom est requis.';
     errors.price = form.price >= 0 ? '' : 'Le jeu doit avoir un prix valide.';
     errors.gameType = form.gameType.trim() ? '' : 'Le type de jeu est requis.';
-    errors.quantity = form.quantity > -1 ? '' : 'La quantité doit être un nombre supérieur à -1.';
-    
+    errors.quantity = form.quantity >= 0 ? '' : 'La quantité doit être un nombre positif.';
 
-    return !errors.name && !errors.quantity && !errors.gameType && !errors.price;
+    return !errors.name && !errors.price && !errors.gameType && !errors.quantity;
   };
 
   const handleAdd = () => {
     if (validateForm()) {
-      game.value.push({ ...form });
-      form.name = '';
-      form.publisher = null;
-      form.maker = null;
-      form.price = 0,
-      form.gameType = '',
-      form.desc = null,
-      form.imgLink = '',
-      form.quantity = 0,
-      form.releaseDate = null;
+      addGame({ ...form });
+
+      Object.assign(form, {
+        name: '',
+        publisher: null,
+        maker: null,
+        price: 0,
+        gameType: '',
+        desc: null,
+        imgLink: '',
+        quantity: 0,
+        releaseDate: null
+      });
     }
   };
 
-  return { form, errors, game, handleAdd };
+  return { form, errors, handleAdd };
 }

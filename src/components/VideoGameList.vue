@@ -6,7 +6,8 @@ export default defineComponent({
   props: {
     games: {
       type: Array as () => VideoGame[],
-      required: true
+      required: true,
+      default: () => []
     }
   }
 });
