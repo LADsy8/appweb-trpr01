@@ -1,12 +1,19 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, type PropType } from 'vue';
 import { VideoGameValidation } from '../scripts/VideoGameValidation';
+import type { VideoGame } from '../scripts/types';
 
 export default defineComponent({
-  emits: ['add-game'],
-  setup(_, { emit }) {
+  props: {
+    addGame: {
+      type: Function as PropType<(game: VideoGame) => void>,
+      required: true
+    }
+  },
+  setup(props) {
     const { form, errors, handleAdd } = VideoGameValidation((game) => {
-      emit('add-game', game);
+      // Appeler la méthode addGame après la validation
+      props.addGame(game);
     });
 
     return { form, errors, handleAdd };
@@ -20,7 +27,7 @@ export default defineComponent({
     <form @submit.prevent="handleAdd">
       <div class="row">
         <div class="col-6 p-4">
-          <label>Nom :</label>
+          <label>Nom </label>
           <input v-model="form.name" type="text" />
           <span v-if="errors.name" class="error">{{ errors.name }}</span>
         </div>
@@ -69,7 +76,7 @@ export default defineComponent({
         </div>
 
         <div class="col-12">
-          <button type="submit">Ajouter</button>
+          <button @click="handleAdd">Ajouter</button>
         </div>
       </div>
     </form>

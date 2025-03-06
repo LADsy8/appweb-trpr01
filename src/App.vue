@@ -28,7 +28,7 @@ export default defineComponent({
                 <VideoGameList :games="games"/>
             </div>
             <div class="col-6 align-self-center">
-                <VideoGameForm />
+                <VideoGameForm :addGame="addGame"/> 
             </div>
         
         </div>

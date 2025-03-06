@@ -28,6 +28,9 @@ export default defineComponent({
           <p><strong>Quantité :</strong> {{ game.quantity }}</p>
           <p><strong>Date de sortie :</strong> {{ game.releaseDate || 'N/A' }}</p>
         </div>
+        <button >Modifier</button>
+        <button >Dupliquer</button>
+        <button >Supprimer</button>
       </div>
     </div>
     <p v-else>Aucun jeu ajouté.</p>
