@@ -10,3 +10,10 @@ export interface VideoGame{
   releaseDate: string | null;
 }
 
+export interface formErrors{
+  name?: string;
+  price?: string;
+  gameType?: string;
+  quantity?: string 
+}
+

@@ -12,7 +12,6 @@ export default defineComponent({
   },
   setup(props) {
     const { form, errors, handleAdd } = VideoGameValidation((game) => {
-      // Appeler la méthode addGame après la validation
       props.addGame(game);
     });
 
@@ -76,7 +75,7 @@ export default defineComponent({
         </div>
 
         <div class="col-12">
-          <button @click="handleAdd">Ajouter</button>
+          <button v-on:submit="handleAdd">Ajouter</button>
         </div>
       </div>
     </form>
