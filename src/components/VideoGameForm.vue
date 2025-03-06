@@ -8,6 +8,10 @@ export default defineComponent({
     addGame: {
       type: Function as PropType<(game: VideoGame) => void>,
       required: true
+    },
+    modifyGame:{
+      type: Function as PropType<(game: VideoGame) => void>,
+      required: true
     }
   },
   setup(props) {
@@ -27,7 +31,7 @@ export default defineComponent({
       <div class="row">
         <div class="col-6 p-4">
           <label>Nom </label>
-          <input v-model="form.name" type="text" />
+          <input v-model="form.name" type="text" v-text="" />
           <span v-if="errors.name" class="error">{{ errors.name }}</span>
         </div>
 

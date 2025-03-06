@@ -14,7 +14,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container border rounded-3 p-4 mt-4">
+  <div class="container border rounded-3 p-4">
     <h2>Liste des Jeux Vidéo</h2>
     <div v-if="games.length">
       <div v-for="(game, index) in games" :key="index" class="game-item">
