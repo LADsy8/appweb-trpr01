@@ -31,7 +31,7 @@ export default defineComponent({
           <p><strong>Date de sortie :</strong> {{ game.releaseDate || 'N/A' }}</p>
         </div>
         <button @click="$emit('edit-game', game)">Modifier</button>
-        <button >Dupliquer</button>
+        <button @click="$emit('duplicate-game', game)">Dupliquer</button>
         <button >Supprimer</button>
       </div>
     </div>

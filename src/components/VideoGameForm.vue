@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, type PropType, watch } from 'vue';
+import { defineComponent, type PropType, ref, watch } from 'vue';
 import { VideoGameValidation } from '../scripts/VideoGameValidation';
 import type { VideoGame } from '../scripts/types';
 
@@ -9,36 +9,51 @@ export default defineComponent({
       type: Function as PropType<(game: VideoGame) => void>,
       required: true
     },
+
+    //c'est pour aller chercher le bon jeux et modifier les infos du jeux spécifique
     modifyGame: {
       type: Function as PropType<(game: VideoGame) => void>,
       required: true
     },
+    //ici, c'est pour quand il déconstruit le jeux vidéo pour mettre les infos dans le formulaire
     editingGame: {
       type: Object as PropType<VideoGame | null>,
       default: null
+    },
+    isDuplicating: {
+      type: Boolean,
+      required: true
     }
   },
   setup(props) {
     const { form, errors, handleAdd, resetForm } = VideoGameValidation((game) => {
-      props.editingGame ? props.modifyGame(game) : props.addGame(game);
+      if (props.isDuplicating) {
+        props.addGame(game);
+      } else {
+        props.editingGame ? props.modifyGame(game) : props.addGame(game);
+      }
     });
+
+    const isEditing = ref(false);
 
     watch(() => props.editingGame, (newGame) => {
       if (newGame) {
         form.value = { ...newGame };
+        isEditing.value = true;
       } else {
         resetForm();
+        isEditing.value = false;
       }
     });
 
-    return { form, errors, handleAdd };
+    return { form, errors, handleAdd, isEditing };
   }
 });
 </script>
 
 <template>
   <div class="container border rounded-3 p-4">
-    <h2>{{ editingGame ? 'Modifier un jeu vidéo' : 'Ajouter un jeu vidéo' }}</h2>
+    <h2>{{ isDuplicating ? 'Dupliquer un jeu vidéo' : (isEditing ? 'Modifier un jeu vidéo' : 'Ajouter un jeu vidéo') }}</h2>
     <form @submit.prevent="handleAdd">
       <div class="row">
         <div class="col-6 p-4">
@@ -91,7 +106,7 @@ export default defineComponent({
         </div>
 
         <div class="col-12">
-          <button v-on:submit="handleAdd">  {{ editingGame ? 'Modifier' : 'Ajouter' }}</button>
+          <button v-on:submit="handleAdd">{{ isDuplicating ? 'Ajouter' : (isEditing ? 'Modifier' : 'Ajouter') }}</button>
         </div>
       </div>
     </form>

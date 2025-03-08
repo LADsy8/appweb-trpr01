@@ -2,28 +2,46 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import type { VideoGame } from './scripts/types';
-import VideoGameForm from './components/VideoGameForm.vue';
 import VideoGameList from './components/VideoGameList.vue';
+import VideoGameForm from './components/VideoGameForm.vue';
 
 export default defineComponent({
   components: { VideoGameForm, VideoGameList },
   setup() {
     const games = ref<VideoGame[]>([]);
     const editingGame = ref<VideoGame | null>(null);
+    const isDuplicating = ref(false);
 
     const addGame = (game: VideoGame) => {
       games.value.push(game);
+      editingGame.value = null;
+      isDuplicating.value = false;
     };
 
     const modifyGame = (updatedGame: VideoGame) => {
-      const index = games.value.findIndex(g => g.name === updatedGame.name);
-      if (index !== -1) {
-        games.value[index] = updatedGame;
-      }
-      editingGame.value = null;
+  const index = games.value.findIndex(g => g.name === editingGame.value?.name); 
+  if (index !== -1) {
+    games.value[index] = { ...updatedGame };
+  }
+  editingGame.value = null;
+  isDuplicating.value = false;
+};
+
+    const handleEditGame = (game: VideoGame) => {
+      editingGame.value = game;
+      isDuplicating.value = false;
     };
 
-    return { games, addGame, modifyGame, editingGame };
+    const handleDuplicateGame = (game: VideoGame) => {
+      const duplicatedGame = { ...game, name: `${game.name} (Copie)` };
+      
+      editingGame.value = duplicatedGame;
+
+      isDuplicating.value = true;
+      
+    };
+
+    return { games, addGame, modifyGame, editingGame, handleDuplicateGame, handleEditGame, isDuplicating};
   }
 });
 </script>
@@ -35,11 +53,11 @@ export default defineComponent({
               <img src="./assets/images/BannersiteTP1AppWeb.jpg" class="img-fluid w-100 h-50">
           </div>
           <div class="col-6">
-            <VideoGameList :games="games" @edit-game="editingGame = $event"/>
+            <VideoGameList :games="games" @edit-game="editingGame = $event"  @duplicate-game="handleDuplicateGame"/>
           </div>
           <div class="col-6">
             
-            <VideoGameForm :addGame="addGame" :modifyGame="modifyGame" :editingGame="editingGame"/>
+            <VideoGameForm :addGame="addGame" :modifyGame="modifyGame" :editingGame="editingGame" :isDuplicating="isDuplicating"/>
           </div>
       
       </div>
