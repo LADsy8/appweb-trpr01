@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue';
+import { defineComponent, type PropType, watch } from 'vue';
 import { VideoGameValidation } from '../scripts/VideoGameValidation';
 import type { VideoGame } from '../scripts/types';
 
@@ -9,14 +9,26 @@ export default defineComponent({
       type: Function as PropType<(game: VideoGame) => void>,
       required: true
     },
-    modifyGame:{
+    modifyGame: {
       type: Function as PropType<(game: VideoGame) => void>,
       required: true
+    },
+    editingGame: {
+      type: Object as PropType<VideoGame | null>,
+      default: null
     }
   },
   setup(props) {
-    const { form, errors, handleAdd } = VideoGameValidation((game) => {
-      props.addGame(game);
+    const { form, errors, handleAdd, resetForm } = VideoGameValidation((game) => {
+      props.editingGame ? props.modifyGame(game) : props.addGame(game);
+    });
+
+    watch(() => props.editingGame, (newGame) => {
+      if (newGame) {
+        form.value = { ...newGame };
+      } else {
+        resetForm();
+      }
     });
 
     return { form, errors, handleAdd };
@@ -26,7 +38,7 @@ export default defineComponent({
 
 <template>
   <div class="container border rounded-3 p-4">
-    <h2>Ajouter un jeu vidéo</h2>
+    <h2>{{ editingGame ? 'Modifier un jeu vidéo' : 'Ajouter un jeu vidéo' }}</h2>
     <form @submit.prevent="handleAdd">
       <div class="row">
         <div class="col-6 p-4">
@@ -79,7 +91,7 @@ export default defineComponent({
         </div>
 
         <div class="col-12">
-          <button v-on:submit="handleAdd">Ajouter</button>
+          <button v-on:submit="handleAdd">  {{ editingGame ? 'Modifier' : 'Ajouter' }}</button>
         </div>
       </div>
     </form>

@@ -39,9 +39,6 @@ export function VideoGameValidation(addGame: (game: VideoGame) => void) {
     }
   };
 
-  const handleModify = () => {
-   
-  }
   const resetForm = () => {
     form.value = {
       name: '',
@@ -63,7 +60,7 @@ export function VideoGameValidation(addGame: (game: VideoGame) => void) {
     };
   };
 
-  return { form, errors, handleAdd };
+  return { form, errors, handleAdd, resetForm };
 }
 function modifyGame(value: { name: string; publisher: string | null; maker: string | null; price: number; gameType: string; desc: string | null; imgLink: string; quantity: number; releaseDate: string | null; }, game: VideoGame) {
   throw new Error('Function not implemented.');
