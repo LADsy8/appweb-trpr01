@@ -22,9 +22,30 @@ export default defineComponent({
       );
     });
 
-    return { searchQuery, filteredGames };
+    const toggleDetails = (game: VideoGame) => {
+      game.isDetailsVisible = !game.isDetailsVisible;
+    };
+
+    const getStock = (quantity: number, game: VideoGame) => {
+      if (quantity === 0) {
+        alert(`La quantité du jeu "${game.name}" est de 0 !`);
+      }
+      if (quantity >= 10) {
+        return 'quantity-green';
+      } else if (quantity >= 5) {
+        return 'quantity-yellow'; 
+      } else {
+        return 'quantity-red';
+      }
+    };
+
+    
+    
+    return { searchQuery, filteredGames, toggleDetails, getStock };
   }
 });
+
+
 </script>
 
 <template>
@@ -40,19 +61,30 @@ export default defineComponent({
     <div v-if="games.length">
       <div v-if="filteredGames.length">
         <div v-for="(game, index) in filteredGames" :key="index" class="game-item">
-          <img :src="game.imgLink" alt="Image du jeu" v-if="game.imgLink" class="game-img"/>
+          <img 
+            :src="game.imgLink" 
+            alt="Image du jeu" 
+            class="game-img"
+            v-if="game.imgLink" 
+          />
           <div class="game-info">
-            <h3>{{ game.name }}</h3>
-            <p><strong>Éditeur :</strong> {{ game.publisher || 'N/A' }}</p>
-            <p><strong>Fabricant :</strong> {{ game.maker || 'N/A' }}</p>
-            <p><strong>Type :</strong> {{ game.gameType }}</p>
-            <p><strong>Prix :</strong> {{ game.price }}$</p>
-            <p><strong>Quantité :</strong> {{ game.quantity }}</p>
-            <p><strong>Date de sortie :</strong> {{ game.releaseDate || 'N/A' }}</p>
+            <h3 @click="toggleDetails(game)">{{ game.name }}</h3>
+
+            <div v-if="game.isDetailsVisible">
+              <p><strong>Éditeur :</strong> {{ game.publisher || 'N/A' }}</p>
+              <p><strong>Fabricant :</strong> {{ game.maker || 'N/A' }}</p>
+              <p><strong>Type :</strong> {{ game.gameType }}</p>
+              <p><strong>Prix :</strong> {{ game.price }}$</p>
+              <p :class="getStock"(game.quantity)>
+                <strong>Quantité :</strong> {{ game.quantity }}
+              </p>
+              <p><strong>Date de sortie :</strong> {{ game.releaseDate || 'N/A' }}</p>
+            </div>
+
+            <button @click="$emit('edit-game', game)">Modifier</button>
+            <button @click="$emit('duplicate-game', game)">Dupliquer</button>
+            <button @click="$emit('delete-game', game)">Supprimer</button>
           </div>
-          <button @click="$emit('edit-game', game)">Modifier</button>
-          <button @click="$emit('duplicate-game', game)">Dupliquer</button>
-          <button @click="$emit('delete-game', game)">Supprimer</button>
         </div>
       </div>
       <p v-else>Aucun jeu correspondant à votre recherche.</p>
@@ -80,5 +112,17 @@ export default defineComponent({
 
 .game-info {
   flex-grow: 1;
+}
+
+.quantity-green {
+  color: green;
+}
+
+.quantity-yellow {
+  color: yellow;
+}
+
+.quantity-red {
+  color: red;
 }
 </style>

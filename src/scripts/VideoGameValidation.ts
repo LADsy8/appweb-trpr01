@@ -12,7 +12,8 @@ export function VideoGameValidation(addGame: (game: VideoGame) => void) {
     desc: null,
     imgLink: '',
     quantity: 0,
-    releaseDate: null
+    releaseDate: null,
+    isDetailsVisible: false
   });
 
   const errors = ref<formErrors>({
@@ -49,7 +50,8 @@ export function VideoGameValidation(addGame: (game: VideoGame) => void) {
       desc: null,
       imgLink: '',
       quantity: 0,
-      releaseDate: null
+      releaseDate: null,
+      isDetailsVisible: false
     };
 
     errors.value = {

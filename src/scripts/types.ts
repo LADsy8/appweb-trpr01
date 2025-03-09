@@ -8,6 +8,7 @@ export interface VideoGame{
   imgLink: string;
   quantity: number;
   releaseDate: string | null;
+  isDetailsVisible: boolean;
 }
 
 export interface formErrors{
