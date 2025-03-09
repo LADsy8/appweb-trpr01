@@ -52,7 +52,35 @@ export default defineComponent({
       }
     };
 
-    return { searchQuery, filteredGames, toggleDetails, getStock };
+    const exportToCSV = () => {
+      const csvContent = [
+        ["Nom", "Éditeur", "Fabricant", "Type", "Prix", "Quantité", "Date de sortie"],
+        ...props.games.map(game => [
+          game.name,
+          game.publisher || "N/A",
+          game.maker || "N/A",
+          game.gameType,
+          game.price,
+          game.quantity,
+          game.releaseDate || "N/A"
+        ])
+      ]
+      .map(row => row.map(value => `"${value}"`).join(",")) 
+      .join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "jeux_video.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+
+    return { searchQuery, filteredGames, toggleDetails, getStock, exportToCSV };
   }
 });
 </script>
@@ -60,6 +88,8 @@ export default defineComponent({
 <template>
   <div class="container border rounded-3 p-4">
     <h2>Liste des Jeux Vidéo</h2>
+
+    <button @click="exportToCSV" class="">Exporter en CSV</button>
 
     <input
       v-model="searchQuery"

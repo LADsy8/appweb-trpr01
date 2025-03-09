@@ -36,6 +36,74 @@ export default defineComponent({
 
     const isEditing = ref(false);
 
+    const defaultGames = ref<VideoGame[]>([
+        {
+          name: "The Legend of Zelda: Breath of the Wild",
+          desc: "Explorez un vaste monde ouvert et sauvez Hyrule dans cette aventure épique.",
+          publisher: "Nintendo",
+          maker: "Nintendo EPD",
+          gameType: "Action/Aventure",
+          price: 79.99,
+          quantity: 10,
+          releaseDate: "2017-03-03",
+          imgLink: "https://upload.wikimedia.org/wikipedia/en/c/c6/The_Legend_of_Zelda_Breath_of_the_Wild.jpg",
+          isDetailsVisible: false
+        },
+        {
+          name: "God of War Ragnarok",
+          desc: "Kratos et Atreus affrontent les dieux nordiques dans un combat pour la survie.",
+          publisher: "Sony Interactive Entertainment",
+          maker: "Santa Monica Studio",
+          gameType: "Action",
+          price: 89.99,
+          quantity: 5,
+          releaseDate: "2022-11-09",
+          imgLink: "https://upload.wikimedia.org/wikipedia/en/e/ee/God_of_War_Ragnar%C3%B6k_cover.jpg",
+          isDetailsVisible: false
+        },
+        {
+          name: "Elden Ring",
+          desc: "Un RPG d'action en monde ouvert créé par FromSoftware et George R.R. Martin.",
+          publisher: "Bandai Namco Entertainment",
+          maker: "FromSoftware",
+          gameType: "RPG",
+          price: 79.99,
+          quantity: 3,
+          releaseDate: "2022-02-25",
+          imgLink: "https://upload.wikimedia.org/wikipedia/en/b/b9/Elden_Ring_Box_art.jpg",
+          isDetailsVisible: false
+        },
+        {
+          name: "Cyberpunk 2077",
+          desc: "Un RPG futuriste en monde ouvert où vous incarnez V dans Night City.",
+          publisher: "CD Projekt",
+          maker: "CD Projekt Red",
+          gameType: "RPG",
+          price: 59.99,
+          quantity: 0,
+          releaseDate: "2020-12-10",
+          imgLink: "https://upload.wikimedia.org/wikipedia/en/9/9f/Cyberpunk_2077_box_art.jpg",
+          isDetailsVisible: false
+        },
+        {
+          name: "Red Dead Redemption 2",
+          desc: "Plongez dans un western immersif avec Arthur Morgan et le gang Van der Linde.",
+          publisher: "Rockstar Games",
+          maker: "Rockstar Studios",
+          gameType: "Action/Aventure",
+          price: 69.99,
+          quantity: 8,
+          releaseDate: "2018-10-26",
+          imgLink: "https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg",
+          isDetailsVisible: false
+        }
+    ]);
+
+    defaultGames.value.forEach((game) => {
+      form.value = { ...game }; 
+      handleAdd();
+    });
+
     watch(() => props.editingGame, (newGame) => {
       if (newGame) {
         form.value = { ...newGame };
