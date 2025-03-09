@@ -4,3 +4,7 @@ This template should help get you started developing with Vue 3 and TypeScript i
 
 Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
 # appweb-trpr01
+
+# Description du projet
+Ce Travail représente une simulation d'une gestionnaire d'inventaire en ligne. Par exemple, il indique si un produit a 0 quantité en stock et permet d'ajouter des nouveaux produits et leurs détails.
+
