@@ -13,13 +13,31 @@ export default defineComponent({
     const isDuplicating = ref(false);
 
     const addGame = (game: VideoGame) => {
-      games.value.push(game);
-      editingGame.value = null;
-      isDuplicating.value = false;
-    };
+  const exists = games.value.some(existingGame => 
+    existingGame.name.toLowerCase() === game.name.toLowerCase()
+  );
 
-    const modifyGame = (updatedGame: VideoGame) => {
-  const index = games.value.findIndex(g => g.name === editingGame.value?.name); 
+  if (exists) {
+    alert(`Le jeu "${game.name}" existe déjà dans la liste !`);
+    return;
+  }
+
+  games.value.push(game); 
+  editingGame.value = null;
+  isDuplicating.value = false;
+};  
+
+      const modifyGame = (updatedGame: VideoGame) => {
+  const exists = games.value.some(
+    game => game.name.toLowerCase() === updatedGame.name.toLowerCase() && game.name !== editingGame.value?.name
+  );
+
+  if (exists) {
+    alert(`Un autre jeu avec le nom "${updatedGame.name}" existe déjà !`);
+    return;
+  }
+
+  const index = games.value.findIndex(g => g.name === editingGame.value?.name);
   if (index !== -1) {
     games.value[index] = { ...updatedGame };
   }
