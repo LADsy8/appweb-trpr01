@@ -87,27 +87,29 @@ export default defineComponent({
 
 <template>
   <div class="container border rounded-3 p-4">
-    <h2>Liste des Jeux Vidéo</h2>
+    <h2 class="text-center">Liste des Jeux Vidéo</h2>
 
-    <button @click="exportToCSV" class="">Exporter en CSV</button>
-
-    <input
-      v-model="searchQuery"
-      type="text"
-      placeholder="Rechercher un jeu..."
-    />
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <button @click="exportToCSV" class="btn btn-primary">Exporter en CSV</button>
+      <input
+        v-model="searchQuery"
+        type="text"
+        class="form-control w-50"
+        placeholder="Rechercher un jeu..."
+      />
+    </div>
 
     <div v-if="games.length">
       <div v-if="filteredGames.length">
-        <div v-for="(game, index) in filteredGames" :key="index" class="game-item">
+        <div v-for="(game, index) in filteredGames" :key="index" class="game-item mb-3">
           <img 
             :src="game.imgLink" 
             alt="Image du jeu" 
-            class="game-img"
+            class="game-img img-fluid rounded"
             v-if="game.imgLink" 
           />
-          <div class="game-info">
-            <h3 @click="toggleDetails(game)">{{ game.name }}</h3>
+          <div class="game-info mt-2">
+            <h3 @click="toggleDetails(game)" class="game-name">{{ game.name }}</h3>
 
             <div v-if="game.isDetailsVisible">
               <p><strong>Éditeur :</strong> {{ game.publisher || 'N/A' }}</p>
@@ -120,9 +122,11 @@ export default defineComponent({
               <p><strong>Date de sortie :</strong> {{ game.releaseDate || 'N/A' }}</p>
             </div>
 
-            <button @click="$emit('edit-game', game)">Modifier</button>
-            <button @click="$emit('duplicate-game', game)">Dupliquer</button>
-            <button @click="$emit('delete-game', game)">Supprimer</button>
+            <div class="d-flex justify-content-between">
+              <button @click="$emit('edit-game', game)" class="btn btn-warning btn-sm">Modifier</button>
+              <button @click="$emit('duplicate-game', game)" class="btn btn-secondary btn-sm">Dupliquer</button>
+              <button @click="$emit('delete-game', game)" class="btn btn-danger btn-sm">Supprimer</button>
+            </div>
           </div>
         </div>
       </div>
@@ -132,6 +136,7 @@ export default defineComponent({
     <p v-else>Aucun jeu dans la liste.</p>
   </div>
 </template>
+
 
 <style scoped>
 .game-item {

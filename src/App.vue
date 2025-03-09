@@ -75,21 +75,23 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container-fluid px-0 ">
-      <div class="row">
-          <div class="col-12">
-              <img src="./assets/images/BannersiteTP1AppWeb.jpg" class="img-fluid w-100 h-50">
-          </div>
-          <div class="col-6">
-            <VideoGameList :games="games" @edit-game="editingGame = $event"  @duplicate-game="handleDuplicateGame" @delete-game="handleDeleteGame"/>
-          </div>
-          <div class="col-6">
-            
-            <VideoGameForm :addGame="addGame" :modifyGame="modifyGame" :editingGame="editingGame" :isDuplicating="isDuplicating"/>
-          </div>
-      
+  <div class="container-fluid px-0">
+    <div class="row">
+      <div class="col-12">
+        <img src="./assets/images/BannersiteTP1AppWeb.jpg" class="img-fluid w-100 h-auto">
       </div>
+      
+
+      <div class="col-12 col-md-6 p-3">
+        <VideoGameList :games="games" @edit-game="editingGame = $event" @duplicate-game="handleDuplicateGame" @delete-game="handleDeleteGame"/>
+      </div>
+      
+      <div class="col-12 col-md-6 p-3">
+        <VideoGameForm :addGame="addGame" :modifyGame="modifyGame" :editingGame="editingGame" :isDuplicating="isDuplicating"/>
+      </div>
+    </div>
   </div>
 </template>
+
 
 
