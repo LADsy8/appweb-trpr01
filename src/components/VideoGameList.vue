@@ -32,7 +32,7 @@ export default defineComponent({
         </div>
         <button @click="$emit('edit-game', game)">Modifier</button>
         <button @click="$emit('duplicate-game', game)">Dupliquer</button>
-        <button >Supprimer</button>
+        <button @click="$emit('delete-game', game)">Supprimer</button>
       </div>
     </div>
     <p v-else>Aucun jeu ajouté.</p>

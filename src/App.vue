@@ -41,7 +41,17 @@ export default defineComponent({
       
     };
 
-    return { games, addGame, modifyGame, editingGame, handleDuplicateGame, handleEditGame, isDuplicating};
+    const handleDeleteGame = (gameToDelete: VideoGame) => {
+      const confirmDelete = window.confirm(`Voulez-vous vraiment supprimer "${gameToDelete.name}" ?`);
+      if (confirmDelete) {
+        games.value = games.value.filter(game => game.name !== gameToDelete.name);
+        if (editingGame.value?.name === gameToDelete.name) {
+          editingGame.value = null;
+    }
+  }
+};
+
+    return { games, addGame, modifyGame, editingGame, handleDuplicateGame, handleEditGame, handleDeleteGame ,isDuplicating};
   }
 });
 </script>
@@ -53,7 +63,7 @@ export default defineComponent({
               <img src="./assets/images/BannersiteTP1AppWeb.jpg" class="img-fluid w-100 h-50">
           </div>
           <div class="col-6">
-            <VideoGameList :games="games" @edit-game="editingGame = $event"  @duplicate-game="handleDuplicateGame"/>
+            <VideoGameList :games="games" @edit-game="editingGame = $event"  @duplicate-game="handleDuplicateGame" @delete-game="handleDeleteGame"/>
           </div>
           <div class="col-6">
             
