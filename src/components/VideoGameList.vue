@@ -120,6 +120,7 @@ export default defineComponent({
                 <strong>Quantité :</strong> {{ game.quantity }}
               </p>
               <p><strong>Date de sortie :</strong> {{ game.releaseDate || 'N/A' }}</p>
+              <p><strong>Description :</strong>{{ game.desc || 'Non spécifié'}}</p>
             </div>
 
             <div class="d-flex justify-content-between">
