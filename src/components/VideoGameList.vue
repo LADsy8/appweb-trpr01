@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import type { VideoGame } from '../scripts/types';
 
 export default defineComponent({
@@ -9,11 +9,9 @@ export default defineComponent({
       required: true,
       default: () => []
     },
-    
   },
-  
-  setup(props) {
 
+  setup(props) {
     const searchQuery = ref('');
 
     const filteredGames = computed(() => {
@@ -22,14 +20,29 @@ export default defineComponent({
       );
     });
 
+    const alertedGames = ref<string[]>([]);
+
+    watch(
+      () => props.games, 
+      (newGames) => {
+        newGames.forEach(game => {
+          if (game.quantity === 0 && !alertedGames.value.includes(game.name)) {
+            alert(`La quantité du jeu "${game.name}" est de 0 !`);
+            alertedGames.value.push(game.name);  
+          }
+        });
+      },
+      { deep: true }
+    );
+
     const toggleDetails = (game: VideoGame) => {
+      if (game.isDetailsVisible === undefined) {
+        game.isDetailsVisible = false;
+      }
       game.isDetailsVisible = !game.isDetailsVisible;
     };
 
-    const getStock = (quantity: number, game: VideoGame) => {
-      if (quantity === 0) {
-        alert(`La quantité du jeu "${game.name}" est de 0 !`);
-      }
+    const getStock = (quantity: number) => {
       if (quantity >= 10) {
         return 'quantity-green';
       } else if (quantity >= 5) {
@@ -39,13 +52,9 @@ export default defineComponent({
       }
     };
 
-    
-    
     return { searchQuery, filteredGames, toggleDetails, getStock };
   }
 });
-
-
 </script>
 
 <template>
@@ -75,7 +84,7 @@ export default defineComponent({
               <p><strong>Fabricant :</strong> {{ game.maker || 'N/A' }}</p>
               <p><strong>Type :</strong> {{ game.gameType }}</p>
               <p><strong>Prix :</strong> {{ game.price }}$</p>
-              <p :class="getStock"(game.quantity)>
+              <p :class="getStock(game.quantity)">
                 <strong>Quantité :</strong> {{ game.quantity }}
               </p>
               <p><strong>Date de sortie :</strong> {{ game.releaseDate || 'N/A' }}</p>

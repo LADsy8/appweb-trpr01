@@ -96,7 +96,7 @@ export default defineComponent({
 
         <div class="col p-4">
           <label>Quantité :</label>
-          <input v-model.number="form.quantity" type="number" min="1" />
+          <input v-model.number="form.quantity" type="number" min="0" />
           <span v-if="errors.quantity" class="error">{{ errors.quantity }}</span>
         </div>
 
